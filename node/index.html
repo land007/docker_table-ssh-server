@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!-- xlsx.js (C) 2013-present  SheetJS http://sheetjs.com -->
+<!-- vim: set ts=2: -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>SheetJS NW.js Demo</title>
+<style>
+#drop{
+	border:2px dashed #bbb;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	padding:25px;
+	text-align:center;
+	font:20pt bold,"Vollkorn";color:#bbb
+}
+a { text-decoration: none }
+table {
+  border-collapse: collapse;
+}
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+<script src="/xlsx.full.min.js"></script>
+<script src="/jquery.min.js"></script>
+<script src="/moment.js"></script>
+<script src="/table.js"></script>
+</head>
+<body>
+<pre>
+<div id="drop">在此处拖放电子表格文件以查看工作表数据</div>
+<input type="file" name="xlfile" id="xlf" />
+
+</pre>
+<p><input type="submit" value="导出数据！" id="xport" onclick="export_xlsx();" disabled="true"></p>
+<div id="htmlout"></div>
+<br />
+<script src="xlsx.full.min.js"></script>
+<script src="index.js"></script>
+</body>
+</html>

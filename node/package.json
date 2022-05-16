@@ -1,0 +1,17 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "This library is 100% pure JS.  This is great for compatibility but tends to lock up long-running processes.  In the web browser, Web Workers are used to offload work from the main browser thread.  In NodeJS, there are other strategies.  This demo shows a few different strategies applied to different server frameworks.",
+  "main": "_cors.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "formidable": "^1.2.2",
+    "ssh2": "^1.3.0",
+    "xlsx": "^0.17.1"
+  }
+}
