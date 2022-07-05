@@ -1,4 +1,6 @@
 //var fs = require('fs');
+var ajaxget = false;
+var ajaxgetTimeout;
 var addEvent = function() {
     $('span[contenteditable="true"]').each(function() {
         $(this).keyup(function() {
@@ -7,22 +9,23 @@ var addEvent = function() {
         });
     });
     //$("table tr");//$($($("table tr")[100]).find("td")[2]).attr("v");
-	var return_tr = undefined;
-    $("table tr").each(function() {
-        var td = document.createElement('td');
-        var button = document.createElement('button');
+	let return_tr = undefined;
+    $("table tr").each(function(index) {
+        let td = document.createElement('td');
+        let button = document.createElement('button');
         button.onclick = function () {
             //console.log($(this));
-            var ip = '';
-            var user_name = '';
-            var user_pass = '';
-            var root_name = '';
-            var root_pass = '';
-            var system = '';
-            var port = '';
+            let ip = '';
+            let user_name = '';
+            let user_pass = '';
+            let root_name = '';
+            let root_pass = '';
+            let system = '';
+            let port = '';
+            let time = '';
 			return_tr = $(this).parent().parent();
-            return_tr.find("td").each(function(index) {
-                var id = $(this).attr("id");
+            return_tr.find("td").each(function() {
+                let id = $(this).attr("id");
                 console.log(id);
                 if(id) {
                     if(id.indexOf('sjs-G') == 0) {
@@ -39,16 +42,53 @@ var addEvent = function() {
                         system = $(this).attr("v");
                     } else if(id.indexOf('sjs-AD') == 0) {
                         port = $(this).attr("v");
+                    } else if(id.indexOf('sjs-AN') == 0) {
+                        time = $(this).attr("v");
                     }
                 }
             });
+			if(time && time.length == '2022-05-10 03:04:26'.length) {
+				let seconds = moment().diff(moment(time, "YYYY-MM-DD HH:mm:ss"), "seconds");
+				let mintus = (seconds/60);
+				let hours = (mintus/60);
+				let days = (hours/24);
+				let month = (days/30);
+				if(month == 0) {
+					return;//超过一个月才获取新的
+				}
+			}
             console.log('ip', ip);
             console.log('user_name', user_name);
             console.log('user_pass', user_pass);
             console.log('root_name', root_name);
             console.log('root_pass', root_pass);
+			if(user_name == undefined && root_name == undefined && root_name == undefined && user_pass == undefined && root_pass == undefined) {
+				$('button')[index + 1].click();
+				return;
+			}
             console.log('system', system);
             console.log('port', port);
+			if(port == undefined && port == '3389' && port == '33890' && port == '65089'  && port == '63389') {
+				$('button')[index + 1].click();
+				return;
+			}
+//			if(user_name == 'msa') {
+//				user_name = '';
+//				user_pass = '';
+//			}
+			if(ajaxget) {
+				console.log('ajax zhong...');
+				return;
+			}
+			ajaxget = true;
+			// if(ajaxgetTimeout) {
+				// clearTimeout(ajaxgetTimeout);
+			// }
+			// ajaxgetTimeout = setTimeout(function() {
+				// ajaxget = false;
+				// ajaxgetTimeout = undefined;
+				// $('button')[index + 1].click();
+			// }, 20000);
             $.ajax({
                 dataType: "json",
                 url: "getCPUInfo.json",
@@ -62,6 +102,7 @@ var addEvent = function() {
                     port,
                 },
                 success: function(response) {
+					ajaxget = false;
                     console.log(response);
 					if(response.code == 200) {
 						return_tr.css("background-color", "#FBEEE6");
@@ -117,12 +158,21 @@ var addEvent = function() {
 								} else if(id.indexOf('sjs-AJ') == 0 && response.msg.disk !== undefined) {
 									$(this).attr("v", response.msg.disk);
 									$(this).find('span').text(response.msg.disk);
+								} else if(id.indexOf('sjs-AN') == 0) {
+									if(response.msg.cpu) {
+										let time = moment().format('YYYY-MM-DD hh:mm:ss');
+										$(this).attr("v", time);
+										$(this).find('span').text(time);
+									}
 								}
 							}
-						});	
+						});
+						$('button')[index + 1].click();
 					}
                 },
                 error: function(response) {
+                    ajaxget = false;
+					$('button')[index + 1].click();
                     console.log(response);
                 }
             });
