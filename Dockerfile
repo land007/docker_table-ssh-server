@@ -7,7 +7,7 @@ COPY node /node_
 
 #docker build -t land007/table-ssh-server:latest .
 #> docker buildx build --platform linux/amd64,linux/arm64/v8,linux/arm/v7 -t land007/table-ssh-server --push .
-#docker rm -f table-ssh-server; docker run --rm -it --name table-ssh-server -v ~/docker/table-ssh-server:/node -p 80:80 land007/table-ssh-server:latest
+#docker rm -f table-ssh-server; docker run --rm -it --name table-ssh-server -v /Users/jiayiqiu/git/docker_table-ssh-server/node:/node -p 80:80 land007/table-ssh-server:latest
 #docker run --rm -it --name table-ssh-server -p 80:80 land007/table-ssh-server:latest
 #docker exec -it table-ssh-server bash
 #docker save -o table-ssh-server.tar land007/table-ssh-server:latest
