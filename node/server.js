@@ -279,12 +279,24 @@ const getRemotInfo = async function(hostinfo, callback) {
         let j = 0;
         obj.system = list[j+i];
         j++;
+        if(!parseFloat(list[j+i])) {
+			j++;
+		}
         obj.system_version = list[j+i];
         j++;
+        if(!parseFloat(list[j+i])) {
+			j++;
+		}
         obj.cpu = list[j+i];
         j++;
+        if(!parseFloat(list[j+i])) {
+			j++;
+		}
         obj.memory = list[j+i];
         j++;
+        if(!parseFloat(list[j+i])) {
+			j++;
+		}
         obj.disk_use = list[j+i];
         j++;
         obj.port = list[j+i];
